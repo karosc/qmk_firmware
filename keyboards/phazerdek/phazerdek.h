@@ -4,6 +4,8 @@
 
 #if defined(KEYBOARD_phazerdek_avr)
 #    include "avr.h"
+#elif defined(KEYBOARD_phazerdek_stm)
+#    include "stm.h"
 #endif
 
 
