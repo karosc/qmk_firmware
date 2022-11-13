@@ -26,10 +26,8 @@
 
 
 
-#define SD1_TX_PIN B7
+#define SD1_TX_PIN A15
 #define SD1_TX_PAL_MODE 7
 
-#define SD1_RX_PIN A15
+#define SD1_RX_PIN B7
 #define SD1_RX_PAL_MODE 7 
-
-#define SERIAL_DRIVER SD1
