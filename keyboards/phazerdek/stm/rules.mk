@@ -1,0 +1,9 @@
+# MCU name
+MCU = STM32F411
+BOARD = GENERIC_STM32_F411XE
+# BOARD = BONSAI_C4
+# Bootloader selection
+BOOTLOADER = stm32-dfu
+
+
+CONSOLE_ENABLE = yes
