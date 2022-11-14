@@ -12,3 +12,5 @@ WS2812_DRIVER = pwm
 EEPROM_DRIVER = spi
 
 CONSOLE_ENABLE = yes
+
+QUANTUM_LIB_SRC += uart.c

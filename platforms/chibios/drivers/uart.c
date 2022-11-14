@@ -15,7 +15,7 @@
  */
 
 #include "uart.h"
-
+#include "uart_protocol.h"
 #include "quantum.h"
 
 #if defined(MCU_KINETIS)
@@ -26,7 +26,7 @@ static SerialConfig serialConfig = {SERIAL_DEFAULT_BITRATE, SD_WRDLEN, SD_STPBIT
 static SerialConfig serialConfig = {SERIAL_DEFAULT_BITRATE, SD_CR1, SD_CR2, SD_CR3};
 #endif
 
-void uart_init(uint32_t baud) {
+void uart_init_iface(uint32_t baud) {
     static bool is_initialised = false;
 
     if (!is_initialised) {
@@ -49,24 +49,24 @@ void uart_init(uint32_t baud) {
     }
 }
 
-void uart_write(uint8_t data) {
+void uart_write_iface(uint8_t data) {
     sdPut(&SERIAL_DRIVER, data);
 }
 
-uint8_t uart_read(void) {
+uint8_t uart_read_iface(void) {
     msg_t res = sdGet(&SERIAL_DRIVER);
 
     return (uint8_t)res;
 }
 
-void uart_transmit(const uint8_t *data, uint16_t length) {
+void uart_transmit_iface(const uint8_t *data, uint16_t length) {
     sdWrite(&SERIAL_DRIVER, data, length);
 }
 
-void uart_receive(uint8_t *data, uint16_t length) {
+void uart_receive_iface(uint8_t *data, uint16_t length) {
     sdRead(&SERIAL_DRIVER, data, length);
 }
 
-bool uart_available(void) {
+bool uart_available_iface(void) {
     return !sdGetWouldBlock(&SERIAL_DRIVER);
 }

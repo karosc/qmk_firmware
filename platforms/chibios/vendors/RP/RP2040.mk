@@ -30,6 +30,8 @@ PICOSDKSRC     = $(PICOSDKROOT)/src/rp2_common/hardware_clocks/clocks.c \
                  $(PICOSDKROOT)/src/rp2_common/hardware_claim/claim.c \
                  $(PICOSDKROOT)/src/rp2_common/hardware_watchdog/watchdog.c \
                  $(PICOSDKROOT)/src/rp2_common/hardware_xosc/xosc.c \
+                 $(PICOSDKROOT)/src/rp2_common/hardware_uart/uart.c \
+                 $(PICOSDKROOT)/src/rp2_common/hardware_timer/timer.c \
                  $(PICOSDKROOT)/src/rp2_common/pico_bootrom/bootrom.c
 
 PICOSDKINC     = $(CHIBIOS)//os/various/pico_bindings/dumb/include \
@@ -47,6 +49,8 @@ PICOSDKINC     = $(CHIBIOS)//os/various/pico_bindings/dumb/include \
                  $(PICOSDKROOT)/src/rp2_common/hardware_resets/include \
                  $(PICOSDKROOT)/src/rp2_common/hardware_watchdog/include \
                  $(PICOSDKROOT)/src/rp2_common/hardware_xosc/include \
+                 $(PICOSDKROOT)/src/rp2_common/hardware_uart/include \
+                 $(PICOSDKROOT)/src/rp2_common/hardware_timer/include \
                  $(PICOSDKROOT)/src/rp2040/hardware_regs/include \
                  $(PICOSDKROOT)/src/rp2040/hardware_structs/include \
                  $(PICOSDKROOT)/src/boards/include \

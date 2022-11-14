@@ -16,12 +16,13 @@
 
 #include "quantum.h"
 #include "matrix.h"
-#include "uart.h"
+#include "uart_protocol.h"
+#include "print.h"
 
 #define UART_MATRIX_RESPONSE_TIMEOUT 10000
 
 void matrix_init_custom(void) {
-    uart_init(1000000);
+    init_uart(1000000);
 }
 
 bool matrix_scan_custom(matrix_row_t current_matrix[]) {
@@ -30,7 +31,7 @@ bool matrix_scan_custom(matrix_row_t current_matrix[]) {
 
     //the s character requests the RF slave to send the matrix
     uart_write('s');
-
+    print("string");
     //trust the external keystates entirely, erase the last data
     uint8_t uart_data[11] = {0};
 
