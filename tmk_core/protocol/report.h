@@ -226,9 +226,10 @@ typedef struct {
 #ifdef DIGITIZER_SHARED_EP
     uint8_t report_id;
 #endif
-    uint8_t  tip : 1;
-    uint8_t  inrange : 1;
-    uint8_t  pad2 : 6;
+    bool     in_range : 1;
+    bool     tip : 1;
+    bool     barrel : 1;
+    uint8_t  reserved : 5;
     uint16_t x;
     uint16_t y;
 } __attribute__((packed)) report_digitizer_t;
@@ -245,7 +246,7 @@ typedef struct {
 #if JOYSTICK_BUTTON_COUNT > 0
     uint8_t buttons[(JOYSTICK_BUTTON_COUNT - 1) / 8 + 1];
 #endif
-} __attribute__((packed)) joystick_report_t;
+} __attribute__((packed)) report_joystick_t;
 
 /* keycode to system usage */
 static inline uint16_t KEYCODE2SYSTEM(uint8_t key) {
@@ -292,6 +293,10 @@ static inline uint16_t KEYCODE2CONSUMER(uint8_t key) {
             return AL_CALCULATOR;
         case KC_MY_COMPUTER:
             return AL_LOCAL_BROWSER;
+        case KC_CONTROL_PANEL:
+            return AL_CONTROL_PANEL;
+        case KC_ASSISTANT:
+            return AL_ASSISTANT;
         case KC_WWW_SEARCH:
             return AC_SEARCH;
         case KC_WWW_HOME:
