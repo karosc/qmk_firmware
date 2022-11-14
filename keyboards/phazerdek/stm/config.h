@@ -8,8 +8,8 @@
  * Feature disable options
  *  These options are also useful to firmware size reduction.
 //  */
-// #define RGB_DI_PIN A3     // The pin your RGB strip is wired to
-// #define RGBLED_NUM 4
+ #define RGB_DI_PIN A10     // The pin your RGB strip is wired to
+ #define RGBLED_NUM 4
 
 // // FRAM configuration
 // #define EXTERNAL_EEPROM_SPI_SLAVE_SELECT_PIN A0
@@ -26,8 +26,5 @@
 
 
 
-#define SD1_TX_PIN A15
-#define SD1_TX_PAL_MODE 7
-
-#define SD1_RX_PIN B7
-#define SD1_RX_PAL_MODE 7 
+#define SD_TX_PIN A15
+#define SD_RX_PIN B7

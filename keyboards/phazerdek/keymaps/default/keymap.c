@@ -326,7 +326,7 @@ bool led_update_user(led_t led_state) {
 void matrix_init_user() {
     rgblight_mode_noeeprom(desired);
     //set_led_blue;
-    set_unicode_input_mode(UC_WIN);
+    set_unicode_input_mode(UNICODE_MODE_WINDOWS);
 }
 
 //Control LED states on layer change
@@ -478,7 +478,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   //delete cells
   case del:
     if (record->event.pressed) {
-        SEND_STRING(SS_LCTRL("-"));
+        SEND_STRING(SS_LCTL("-"));
     }
     return true;
     break;
