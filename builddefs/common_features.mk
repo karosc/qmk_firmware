@@ -699,6 +699,17 @@ ifeq ($(strip $(SPLIT_KEYBOARD)), yes)
     COMMON_VPATH += $(QUANTUM_PATH)/split_common
 endif
 
+VALID_UART_DRIVER_TYPES := serial sio vendor
+ifeq ($(strip $(UART_ENABLE)), yes)
+    UART_DRIVER ?= serial
+    ifeq ($(filter $(UART_DRIVER),$(VALID_UART_DRIVER_TYPES)),)
+        $(call CATASTROPHIC_ERROR,Invalid UART_DRIVER,UART_DRIVER="$(UART_DRIVER)" is not a valid UART driver)
+    endif
+
+    QUANTUM_LIB_SRC += uart.c
+    QUANTUM_LIB_SRC += uart_$(strip $(UART_DRIVER)).c    
+endif
+
 ifeq ($(strip $(CRC_ENABLE)), yes)
     OPT_DEFS += -DCRC_ENABLE
     SRC += crc.c

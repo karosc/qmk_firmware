@@ -6,5 +6,8 @@ RGBLIGHT_ENABLE = yes
 RGBLIGHT_DRIVER = WS2812
 WS2812_DRIVER = vendor
 CONSOLE_ENABLE = yes
+UART_ENABLE = yes
+UART_DRIVER = vendor
 
-QUANTUM_LIB_SRC += uart_vendor.c
+
+#QUANTUM_LIB_SRC += uart_vendor.c

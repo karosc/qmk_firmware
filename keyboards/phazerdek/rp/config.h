@@ -24,7 +24,9 @@
 // #define EXTERNAL_FLASH_PAGE_SIZE 256
 // #define EXTERNAL_FLASH_SPI_TIMEOUT 200000 //datasheet max is 200 seconds for flash chip erase
 // #define NOP_FUDGE 0.4
+
 #define SERIAL_DRIVER uart0
 
+// #define SERIAL_DRIVER SIOD0
 #define SD_TX_PIN GP0
 #define SD_RX_PIN GP1

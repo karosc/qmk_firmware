@@ -4,7 +4,7 @@
 
 #include "hardware/uart.h"
 #include "hardware/gpio.h"
-#include "uart_protocol.h"
+#include "uart.h"
 
 #ifndef SERIAL_DRIVER
 #    define SERIAL_DRIVER uart0
