@@ -16,30 +16,34 @@
 
 #include "quantum.h"
 #include "matrix.h"
-#include "uart_protocol.h"
+#include "uart.h"
 #include "print.h"
 
 #define UART_MATRIX_RESPONSE_TIMEOUT 10000
 
 void matrix_init_custom(void) {
-    init_uart(1000000);
+
+    init_uart(921600);
 }
 
 bool matrix_scan_custom(matrix_row_t current_matrix[]) {
     uint32_t timeout = 0;
     bool changed = false;
 
-    //the s character requests the RF slave to send the matrix
+    // //the s character requests the RF slave to send the matrix
+    print("scan\n");
+
     uart_write('s');
-    print("string");
-    //trust the external keystates entirely, erase the last data
+    // //trust the external keystates entirely, erase the last data
     uint8_t uart_data[11] = {0};
 
-    //there are 10 bytes corresponding to 10 columns, and then an end byte
+    // //there are 10 bytes corresponding to 10 columns, and then an end byte
     for (uint8_t i = 0; i < 11; i++) {
         //wait for the serial data, timeout if it's been too long
         //this only happened in testing with a loose wire, but does no
         //harm to leave it in here
+        // bool av = !uart_available();
+        // uprintf("av: %d\n",av);
         while (!uart_available()) {
             timeout++;
             if (timeout > UART_MATRIX_RESPONSE_TIMEOUT) {
@@ -49,19 +53,30 @@ bool matrix_scan_custom(matrix_row_t current_matrix[]) {
 
         if (timeout < UART_MATRIX_RESPONSE_TIMEOUT) {
             uart_data[i] = uart_read();
+            uprintf("%d\n",uart_data[i]);
+
         } else {
             uart_data[i] = 0x00;
+            print("timeout");
         }
     }
-
+    // uart_receive(uart_data,11);
+    // uprintf("test: %d",0xE0);
+    // uprintf("  data: %d\n",uart_data[10]);
     //check for the end packet, the key state bytes use the LSBs, so 0xE0
     //will only show up here if the correct bytes were recieved
     if (uart_data[10] == 0xE0) {
+        // print("packet\n");
         //shifting and transferring the keystates to the QMK matrix variable
         for (uint8_t i = 0; i < MATRIX_ROWS; i++) {
             matrix_row_t current_row = (uint16_t) uart_data[i * 2] | (uint16_t) uart_data[i * 2 + 1] << 8;
             if (current_matrix[i] != current_row) {
                 changed = true;
+                // print("NEW\n");
+
+            }
+            else{
+                // print("no changes\n");
             }
             current_matrix[i] = current_row;
         }

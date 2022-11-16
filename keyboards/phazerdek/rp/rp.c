@@ -9,10 +9,16 @@ void matrix_init_kb(void) {
 }
 
 
+void keyboard_pre_init_user(void) {
+
+}
+
 void keyboard_post_init_user(void) {
-  // Customise these values to desired behaviour
-  // debug_enable=true;
-  // debug_matrix=true;
-  //debug_keyboard=true;
-  //debug_mouse=true;
+    setPinOutput(GP2);
+    setPinOutput(GP29);
+    setPinOutput(GP28);
+    
+    writePinHigh(GP2);
+    writePinHigh(GP29);
+    writePinHigh(GP28);
 }

@@ -34,3 +34,7 @@
 #if !defined(SERIAL_USART_CR3)
 #    define SERIAL_USART_CR3 0
 #endif
+
+#if !defined(SERIAL_USART_TIMEOUT)
+#    define SERIAL_USART_TIMEOUT 20
+#endif

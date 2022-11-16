@@ -1,7 +1,9 @@
 #include "quantum.h"
 #include "uart.h"
 #include <hal.h>
-
+#include "print.h"
+#include "synchronization_util.h"
+#include "uart_sio.h"
 
 #if defined(MCU_STM32) /* STM32 MCUs */
 static SIOConfig serial_config = {
@@ -38,6 +40,15 @@ void clear_rx_evt_cb(SIODriver* siop) {
     osalSysUnlockFromISR();
 }
 
+static inline void serial_transport_driver_clear(void) {
+    osalSysLock();
+    while (!sioIsRXEmptyX(serial_driver)) {
+        (void)sioGetX(serial_driver);
+    }
+    osalSysUnlock();
+}
+
+
 static const SIOOperation serial_usart_operation = {.rx_cb = NULL, .rx_idle_cb = NULL, .tx_cb = NULL, .tx_end_cb = NULL, .rx_evt_cb = &clear_rx_evt_cb};
 
 
@@ -66,31 +77,39 @@ void uart_init_iface(uint32_t baud) {
 #            pragma message "usart_init: MCU Familiy not supported by default, please supply your own init code by implementing usart_init() in your keyboard files."
 #        endif
 
-    sioStart(&SERIAL_DRIVER, &serial_config);
-    sioStartOperation(&SERIAL_DRIVER, &serial_usart_operation);
+    sioStart(serial_driver, &serial_config);
+    sioStartOperation(serial_driver, &serial_usart_operation);
     }
 }
 
 
 void uart_write_iface(uint8_t data) {
-    sioPutX(&SERIAL_DRIVER, data);
+    uprintf("sent: %d",data);
+    sioPutX(serial_driver, data);
+    // chnWriteTimeout(serial_driver, &data, 1,TIME_MS2I(SERIAL_USART_TIMEOUT));
+    // chnWrite(serial_driver, &data, 1);
 }
 
 uint8_t uart_read_iface(void) {
-    msg_t res = sioGetX(&SERIAL_DRIVER);
+    // uint8_t res;
 
-    return (uint8_t)res;
+    msg_t res = sioGetX(serial_driver);
+    // chnReadTimeout(serial_driver, &res, 1, TIME_MS2I(SERIAL_USART_TIMEOUT));
+    // chnRead(serial_driver, &res, 1);
+    return res;
 }
 
-void uart_transmit_iface(const uint8_t *data, uint16_t length) {
+void uart_transmit_iface(const uint8_t *d, uint16_t length) {
     // sdWrite(&SERIAL_DRIVER, data, length);
-}
+    // chnRead(serial_driver, data, length) 
+ }   
 
 void uart_receive_iface(uint8_t *data, uint16_t length) {
     // sdRead(&SERIAL_DRIVER, data, length);
 }
 
 bool uart_available_iface(void) {
-    return !sioIsRXEmptyX(&SERIAL_DRIVER);
+    // return !sioIsRXEmptyX(serial_driver);
+    return 1;
     // return !sdGetWouldBlock(&SERIAL_DRIVER);
 }

@@ -13,7 +13,7 @@ BACKLIGHT_ENABLE = no       # Enable keyboard backlight functionality
 RGBLIGHT_ENABLE = no        # Enable keyboard RGB underglow
 AUDIO_ENABLE = no           # Audio output
 CUSTOM_MATRIX = lite
-
+RAW_ENABLE = yes
 # project specific files
 SRC += matrix.c
-QUANTUM_LIB_SRC += uart_protocol.c
+# QUANTUM_LIB_SRC += uart_protocol.c

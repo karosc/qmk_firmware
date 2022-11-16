@@ -28,5 +28,6 @@
 #define SERIAL_DRIVER uart0
 
 // #define SERIAL_DRIVER SIOD0
+
 #define SD_TX_PIN GP0
 #define SD_RX_PIN GP1
