@@ -17,7 +17,7 @@
 #include "quantum.h"
 #include "matrix.h"
 #include "uart.h"
-#include "print.h"
+// #include "print.h"
 
 #define UART_MATRIX_RESPONSE_TIMEOUT 10000
 
@@ -31,7 +31,7 @@ bool matrix_scan_custom(matrix_row_t current_matrix[]) {
     bool changed = false;
 
     // //the s character requests the RF slave to send the matrix
-    print("scan\n");
+    // print("scan\n");
 
     uart_write('s');
     // //trust the external keystates entirely, erase the last data
@@ -53,11 +53,11 @@ bool matrix_scan_custom(matrix_row_t current_matrix[]) {
 
         if (timeout < UART_MATRIX_RESPONSE_TIMEOUT) {
             uart_data[i] = uart_read();
-            uprintf("%d\n",uart_data[i]);
+            // uprintf("data: %d\n",uart_data[i]);
 
         } else {
             uart_data[i] = 0x00;
-            print("timeout");
+            // print("timeout: \n");
         }
     }
     // uart_receive(uart_data,11);
