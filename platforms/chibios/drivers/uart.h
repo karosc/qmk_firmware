@@ -108,3 +108,5 @@ void uart_transmit_iface(const uint8_t *data, uint16_t length);
 void uart_receive_iface(uint8_t *data, uint16_t length);
 
 bool uart_available_iface(void);
+
+// void serial_transport_driver_clear(void);

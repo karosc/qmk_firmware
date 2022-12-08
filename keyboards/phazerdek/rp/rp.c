@@ -1,5 +1,7 @@
 #include "rp.h"
 
+extern void ui_init(void);
+extern void ui_task(void);
 
 void matrix_init_kb(void) {
 	// put your keyboard start-up code here
@@ -14,11 +16,16 @@ void keyboard_pre_init_user(void) {
 }
 
 void keyboard_post_init_user(void) {
-    setPinOutput(GP2);
-    setPinOutput(GP29);
-    setPinOutput(GP28);
-    
-    writePinHigh(GP2);
-    writePinHigh(GP29);
-    writePinHigh(GP28);
+  // Customise these values to desired behaviour
+  // debug_enable=true;
+  // debug_matrix=true;
+
+  ui_init();
+  //debug_keyboard=true;
+  //debug_mouse=true;
+}
+
+void housekeeping_task_user(void) {
+    // Draw the display
+    ui_task();
 }

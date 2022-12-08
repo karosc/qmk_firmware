@@ -40,16 +40,22 @@ void clear_rx_evt_cb(SIODriver* siop) {
     osalSysUnlockFromISR();
 }
 
-static inline void serial_transport_driver_clear(void) {
+void serial_transport_driver_clear(void) {
+    // uprintf("before: %d\n",sioIsRXEmptyX(serial_driver));
+    // bool r;
     osalSysLock();
+
     while (!sioIsRXEmptyX(serial_driver)) {
         (void)sioGetX(serial_driver);
     }
+    // r = sioIsRXEmptyX(serial_driver);
     osalSysUnlock();
+    // uprintf("after: %d\n",r);
+
 }
 
 
-static const SIOOperation serial_usart_operation = {.rx_cb = NULL, .rx_idle_cb = NULL, .tx_cb = NULL, .tx_end_cb = NULL, .rx_evt_cb = &clear_rx_evt_cb};
+static const SIOOperation serial_usart_operation = {.rx_cb = NULL, .rx_idle_cb = NULL, .tx_cb = NULL, .tx_end_cb = NULL, .rx_evt_cb =  &clear_rx_evt_cb};
 
 
 void uart_init_iface(uint32_t baud) {
@@ -71,6 +77,7 @@ void uart_init_iface(uint32_t baud) {
 #            endif
 
 #        elif defined(MCU_RP) /* Raspberry Pi MCUs */
+// #       pragma message "RP2040 compilation!!!!!!!!!!!!!!"
         palSetLineMode(SD_TX_PIN, PAL_MODE_ALTERNATE_UART);
         palSetLineMode(SD_RX_PIN, PAL_MODE_ALTERNATE_UART);
 #        else
@@ -84,16 +91,21 @@ void uart_init_iface(uint32_t baud) {
 
 
 void uart_write_iface(uint8_t data) {
-    uprintf("sent: %d",data);
-    sioPutX(serial_driver, data);
+
+    // serial_transport_driver_clear();
+
+    osalSysLock();
+    sioPutX(serial_driver, (uint_fast16_t)data);
+    osalSysUnlock();
     // chnWriteTimeout(serial_driver, &data, 1,TIME_MS2I(SERIAL_USART_TIMEOUT));
     // chnWrite(serial_driver, &data, 1);
 }
 
 uint8_t uart_read_iface(void) {
     // uint8_t res;
-
+    osalSysLock();
     msg_t res = sioGetX(serial_driver);
+    osalSysUnlock();
     // chnReadTimeout(serial_driver, &res, 1, TIME_MS2I(SERIAL_USART_TIMEOUT));
     // chnRead(serial_driver, &res, 1);
     return res;
@@ -109,7 +121,14 @@ void uart_receive_iface(uint8_t *data, uint16_t length) {
 }
 
 bool uart_available_iface(void) {
-    // return !sioIsRXEmptyX(serial_driver);
-    return 1;
+    // bool r;
+    // osalSysLock();
+    // r = !sioIsRXEmptyX(serial_driver);
+    // osalSysUnlock();
+    // uprintf("not empty: %d\n",r);
+    msg_t r = sioSynchronizeRX(serial_driver,TIME_MS2I(20));
+    uprintf("not empty: %d\n",(int)r);
+    // return 0;
+    return !sioIsRXEmptyX(serial_driver);
     // return !sdGetWouldBlock(&SERIAL_DRIVER);
 }
