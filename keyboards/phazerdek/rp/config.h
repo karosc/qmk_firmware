@@ -8,7 +8,9 @@
  * Feature disable options
  *  These options are also useful to firmware size reduction.
 //  */
- #define RGB_DI_PIN GP9    // The pin your RGB strip is wired to
+ #define RGB_DI_PIN GP25    // The pin your RGB strip is wired to
+//  #define RGB_DI_PIN GP9    // The pin your RGB strip is wired to
+
  #define RGBLED_NUM 8
  #define WS2812_PIO_USE_PIO1
 // // FRAM configuration

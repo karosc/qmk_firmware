@@ -15,29 +15,37 @@
 #include "graphics/lock-num.qgf.c"
 #include "graphics/lock-scrl.qgf.c"
 #include "graphics/thintel15.qff.c"
+#include "graphics/atom_resize.qgf.c"
+
 
 static painter_device_t       oled;
-static painter_image_handle_t logo;
-static painter_image_handle_t noface;
-static painter_image_handle_t name;
+// static painter_image_handle_t logo;
+// static painter_image_handle_t noface;
+// static painter_image_handle_t name;
 static painter_font_handle_t  font;
 static painter_image_handle_t lock_caps;
 static painter_image_handle_t lock_num;
 static painter_image_handle_t lock_scrl;
+static painter_image_handle_t atom;
+// static deferred_token my_anim;
 
 void ui_init(void) {
     oled      = qp_ssd1351_make_spi_device(128, 128, OLED_CS_PIN, OLED_DC_PIN, OLED_RST_PIN, 8, 0);
-    logo      = qp_load_image_mem(gfx_ghoul_logo);
-    noface    = qp_load_image_mem(gfx_noface_logo);
-    name      = qp_load_image_mem(gfx_ghoul_name);
+    // logo      = qp_load_image_mem(gfx_ghoul_logo);
+    // noface    = qp_load_image_mem(gfx_noface_logo);
+    atom    = qp_load_image_mem(gfx_atom_resize);
+    // name      = qp_load_image_mem(gfx_ghoul_name);
     font      = qp_load_font_mem(font_thintel15);
     lock_caps = qp_load_image_mem(gfx_lock_caps);
     lock_num  = qp_load_image_mem(gfx_lock_num);
     lock_scrl = qp_load_image_mem(gfx_lock_scrl);
 
-    qp_init(oled, QP_ROTATION_0);
+    
+    qp_init(oled, QP_ROTATION_90);
     qp_rect(oled, 0, 0, 127, 127, 0, 0, 0, true);
     qp_flush(oled);
+
+    // my_anim = qp_animate_recolor(oled, 127 - atom->width, 0, atom, 255, 255, 255, 255, 255, 0);
 }
 
 void ui_task(void) {
@@ -50,8 +58,9 @@ void ui_task(void) {
     }
 
     if (hue_redraw) {
-        qp_drawimage_recolor(oled, 0, 64 - (name->height / 2), name, curr_hue, 255, 255, curr_hue, 255, 0);
-        qp_drawimage_recolor(oled, 127 - noface->width, 0, noface, curr_hue, 255, 255, curr_hue, 255, 0);
+        // qp_drawimage_recolor(oled, 0, 64 - (name->height / 2), name, curr_hue, 255, 255, curr_hue, 255, 0);
+        qp_drawimage_recolor(oled, 127 - atom->width, 0, atom, curr_hue, 255, 255, curr_hue, 255, 0);
+        // my_anim = qp_animate_recolor(oled, 127 - atom->width, 0, atom, curr_hue, 255, 255, curr_hue, 255, 0);
     }
 
     static led_t last_led_state = {0};

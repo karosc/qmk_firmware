@@ -30,10 +30,13 @@
 
 #define AUDIO_INIT_DELAY
 #define AUDIO_PIN A3
+#define AUDIO_PIN_ALT B10
 // #define AUDIO_STATE_TIMER GPTD5
 #define AUDIO_PWM_DRIVER PWMD5
 #define AUDIO_PWM_CHANNEL 4
 #define AUDIO_PWM_PAL_MODE 2
+#define AUDIO_PIN_ALT_AS_NEGATIVE
+
 
 // Display Configuration
 #define OLED_CS_PIN A5
