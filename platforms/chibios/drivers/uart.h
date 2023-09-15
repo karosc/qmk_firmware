@@ -18,6 +18,8 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include "gpio.h"
+#include "chibios_config.h"
 
 #include <hal.h>
 
