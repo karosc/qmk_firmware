@@ -1,6 +1,7 @@
 # Build Options
 #   change yes to no to disable
 #
+DEFAULT_FOLDER = phazerdek
 
 
 BOOTMAGIC_ENABLE = no       # Enable Bootmagic Lite

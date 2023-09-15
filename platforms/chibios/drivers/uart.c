@@ -15,6 +15,8 @@
  */
 
 #include "uart.h"
+#include "gpio.h"
+#include "chibios_config.h"
 
 #if defined(MCU_KINETIS)
 static SerialConfig serialConfig = {SERIAL_DEFAULT_BITRATE};
